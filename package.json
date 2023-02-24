@@ -7,8 +7,8 @@
     "lint": "eslint . --ext .js,.jsx --ignore-path .gitignore",
     "lint:fix": "yarn lint --fix",
     "lint:watch": "yarn lint --watch",
-    "start": "nodemon",
-    "start:prod": "cross-env NODE_ENV=production node index.js"
+    "start": "nodemon -L",
+    "start:prod": "cross-env NODE_ENV=production node ."
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,11 @@
+version: '3.2'
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app/server
+    command: npm start
+    network_mode: host
