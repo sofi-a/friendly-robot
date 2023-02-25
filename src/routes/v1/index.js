@@ -8,4 +8,10 @@ const router = express.Router();
  */
 router.get('/status', (req, res) => res.send('OK'));
 
+/**
+ *
+ * GET api/v1/google
+ */
+router.use('/google', require('./google'));
+
 module.exports = router;
