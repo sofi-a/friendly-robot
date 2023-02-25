@@ -2,10 +2,12 @@ const { port, env } = require('./config');
 const logger = require('./config/logger');
 const app = require('./config/express');
 const { connect } = require('./config/mongoose');
+const google = require('./src/utils/google');
 
 function listen() {
   app.listen(port || 5000, '0.0.0.0', () => {
     logger.info(`server listening on port ${port || 5000} (${env})`);
+    google.initialize();
   });
 }
 

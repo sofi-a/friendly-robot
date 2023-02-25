@@ -14,4 +14,12 @@ module.exports = {
     },
   },
   logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
+  google: {
+    client: {
+      id: process.env.GOOGLE_OAUTH2_CLIENT_ID,
+      secret: process.env.GOOGLE_OAUTH2_CLIENT_SECRET,
+    },
+    redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+    scope: 'https://www.googleapis.com/auth/gmail.readonly',
+  },
 };

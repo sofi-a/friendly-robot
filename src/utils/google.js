@@ -1,24 +1,11 @@
 const { google } = require('googleapis');
 
-const scopes = ['https://www.googleapis.com/auth/gmail.readonly'];
+const config = require('../../config');
+const User = require('../models/user');
 
-const oAuth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_OAUTH2_CLIENT_ID,
-  process.env.GOOGLE_OAUTH2_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URI
-);
+const clients = {};
 
-exports.generateAuthUrl = () =>
-  oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: scopes,
-  });
-
-exports.getToken = (code) => oAuth2Client.getToken(code);
-
-exports.setCredentials = (tokens) => oAuth2Client.setCredentials(tokens);
-
-function Gmail(auth = oAuth2Client, version = 'v1') {
+function Gmail(auth, version = 'v1') {
   this.gmail = google.gmail({ auth, version });
 }
 
@@ -44,4 +31,34 @@ Gmail.prototype.getMessage = async function getMessage({ userId, messageId }) {
   return message.data;
 };
 
+Gmail.prototype.getProfile = async function getProfile() {
+  const profile = await this.gmail.users.getProfile({
+    userId: 'me',
+  });
+  return profile.data;
+};
+
 exports.Gmail = Gmail;
+
+exports.getClient = async (email) => clients[email];
+
+exports.setClient = async (email, client) => {
+  clients[email] = client;
+};
+
+exports.initialize = async () => {
+  const users = await User.getUsers();
+  users.forEach(async (user) => {
+    if (user.tokens) {
+      const oAuth2Client = new google.auth.OAuth2(
+        config.google.client.id,
+        config.google.client.secret,
+        config.google.redirect_uri
+      );
+
+      oAuth2Client.setCredentials(user.tokens);
+
+      clients[user.emailAddress] = new Gmail(oAuth2Client);
+    }
+  });
+};
