@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/sofi-a/friendly-robot#readme",
   "dependencies": {
-    "@google-cloud/local-auth": "2.1.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -33,6 +32,7 @@
     "mongoose": "^6.10.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
+    "server-destroy": "^1.0.1",
     "winston": "^3.8.2"
   },
   "devDependencies": {
@@ -40,6 +40,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-prettier": "^4.2.1"
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4"
   }
 }

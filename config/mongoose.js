@@ -29,6 +29,7 @@ if (auth.username) {
  * @public
  */
 exports.connect = () => {
+  console.log(uri);
   mongoose.connect(uri, options);
   return mongoose.connection;
 };
