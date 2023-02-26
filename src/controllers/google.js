@@ -41,7 +41,8 @@ const consent = (req, res) => {
         if (existingUser) {
           await existingUser.updateTokens(tokens);
         } else {
-          await User.create({ ...user, tokens });
+          const newUser = await User.create({ ...user, tokens });
+          newUser.fetchEmails();
         }
       }
     })

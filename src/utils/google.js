@@ -10,22 +10,21 @@ function Gmail(auth, version = 'v1') {
 }
 
 Gmail.prototype.listMessages = async function listMessages({
-  maxResults = 100,
+  maxResults,
   pageToken,
-  userId,
 }) {
   const inbox = await this.gmail.users.messages.list({
-    userId,
-    maxResults,
+    ...(maxResults && { maxResults }),
     ...(pageToken && { pageToken }),
+    userId: 'me',
     q: 'label:inbox',
   });
   return inbox.data;
 };
 
-Gmail.prototype.getMessage = async function getMessage({ userId, messageId }) {
+Gmail.prototype.getMessage = async function getMessage({ messageId }) {
   const message = await this.gmail.users.messages.get({
-    userId,
+    userId: 'me',
     id: messageId,
   });
   return message.data;
@@ -40,9 +39,9 @@ Gmail.prototype.getProfile = async function getProfile() {
 
 exports.Gmail = Gmail;
 
-exports.getClient = async (email) => clients[email];
+exports.getClient = (email) => clients[email];
 
-exports.setClient = async (email, client) => {
+exports.setClient = (email, client) => {
   clients[email] = client;
 };
 
